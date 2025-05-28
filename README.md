@@ -59,7 +59,7 @@ etl-pipeline-aws/
 
 📊 Output
 RDS: Cleaned, structured data
-
+z
 Redshift: Aggregated analytics-ready data
 
 QuickSight Dashboards: Visual KPIs
