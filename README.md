@@ -6,7 +6,7 @@ This project demonstrates a robust, end-to-end data pipeline using AWS services,
 
 ## 📌 Architecture Overview
 
-![ETL Architecture]([diagram/etl_pipeline_architecture.png](https://github.com/user-attachments/assets/048c022f-e40f-47ee-80b9-64be802aead6))
+![ETL Architecture](diagram/etl_pipeline_architecture.png](https://github.com/user-attachments/assets/048c022f-e40f-47ee-80b9-64be802aead6)
 
 ---
 
