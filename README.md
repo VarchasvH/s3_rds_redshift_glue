@@ -1,70 +1,87 @@
-# 🛠️ AWS ETL Data Pipeline with PySpark, Airflow & Redshift
+# 🛠️ End-to-End AWS Data Pipeline with PySpark, Airflow & Redshift
 
-This project demonstrates a robust, end-to-end data pipeline using AWS services, PySpark, and Apache Airflow. The pipeline ingests raw data from S3, processes and loads it into RDS, further transforms it, and loads it into Redshift for analytics and visualization.
+This project showcases a production-grade, cloud-native ETL pipeline using **AWS services**, **PySpark**, and **Apache Airflow**. It simulates real-world batch processing, transforming raw data into analytics-ready insights.
 
 ---
 
 ## 📌 Architecture Overview
 
-![ETL Architecture](diagram/etl_pipeline_architecture.png](https://github.com/user-attachments/assets/048c022f-e40f-47ee-80b9-64be802aead6)
+![ETL Architecture](https://github.com/user-attachments/assets/048c022f-e40f-47ee-80b9-64be802aead6)
 
 ---
 
 ## 🚀 Technologies Used
 
-- **AWS S3** – Cloud storage for raw data
-- **PySpark** – Data cleaning and transformation
-- **AWS RDS** – Intermediate storage using PostgreSQL
-- **AWS Redshift** – Data warehousing for analytics
-- **Amazon QuickSight** – Business intelligence and dashboards
-- **Apache Airflow** – Workflow orchestration and automation
-- **AWS SNS** – Notification alerts via email
+| Category          | Tools & Services                              |
+|------------------|-----------------------------------------------|
+| **Cloud Storage** | Amazon S3                                      |
+| **Data Processing** | PySpark on AWS Glue                            |
+| **Database (Staging)** | AWS RDS (MySQL/PostgreSQL)                     |
+| **Data Warehouse** | Amazon Redshift                               |
+| **Orchestration** | Apache Airflow (Custom DAGs)                   |
+| **Visualization** | Amazon QuickSight                              |
+| **Notifications** | AWS SNS (Email alerts)                         |
 
 ---
 
-## 🔄 ETL Process Workflow
+## 🔄 ETL Workflow
 
-1. **Raw Data Ingestion**  
-   Data is uploaded to **Amazon S3**
+### 🥇 Stage 1: Raw Data → S3
+- Upload raw `.csv` data files to **Amazon S3**
 
-2. **ETL Stage 1 – S3 to RDS**  
-   `scripts/s3_to_rds.py` reads and processes the data using **PySpark**, and loads it into **Amazon RDS**
+### 🧹 Stage 2: S3 → RDS (Cleaning & Staging)
+- `scripts/s3_to_rds.py` reads from S3
+- Applies data cleaning/transformation using **PySpark**
+- Loads structured data into **AWS RDS**
 
-3. **ETL Stage 2 – RDS to Redshift**  
-   `scripts/rds_to_redshift.py` fetches data from RDS, applies further transformations, and loads it into **Amazon Redshift**
+### 📊 Stage 3: RDS → Redshift (Enrichment & Aggregation)
+- `scripts/rds_to_redshift.py` fetches cleaned data from RDS
+- Performs additional transformations
+- Loads final dataset into **Amazon Redshift**
 
-4. **Orchestration**  
-   All steps are scheduled and monitored via the **Airflow DAG** in `dags/etl_airflow_dag.py`
+### 📅 Orchestration
+- **Apache Airflow DAG**: `dags/etl_airflow_dag.py` manages the pipeline schedule, retries, dependencies, and task status.
 
-5. **Visualization**  
-   Cleaned data is visualized using **Amazon QuickSight** dashboards
+### 📈 Visualization
+- **Amazon QuickSight** dashboard is connected to Redshift for interactive reports and KPIs.
 
-6. **Notifications**  
-   Success/failure notifications sent via **AWS SNS**
+### 🔔 Notifications
+- Pipeline success/failure is monitored via **AWS SNS** alerts to email.
 
 ---
 
 ## 🗂️ Project Structure
+
+```bash
 etl-pipeline-aws/
 ├── README.md
 ├── dags/
-│ └── etl_airflow_dag.py
+│   └── etl_airflow_dag.py         # Airflow DAG definition
 ├── scripts/
-│ ├── s3_to_rds.py
-│ └── rds_to_redshift.py
+│   ├── s3_to_rds.py               # Stage 1: S3 → RDS
+│   └── rds_to_redshift.py         # Stage 2: RDS → Redshift
 ├── data/
-│ └── sample_data.csv
+│   └── sample_data.csv            # Sample input data
 ├── diagram/
-│ └── etl_pipeline_architecture.png
+│   └── etl_pipeline_architecture.png
+```
+---
 
-📊 Output
-RDS: Cleaned, structured data
-z
-Redshift: Aggregated analytics-ready data
+## 📊 Output Summary
 
-QuickSight Dashboards: Visual KPIs
+| Component            | Description                                                    |
+|---------------------|----------------------------------------------------------------|
+| **Amazon RDS**       | Contains cleaned and structured staging data after ETL Stage 1 |
+| **Amazon Redshift**  | Stores analytics-ready, transformed data for dashboards        |
+| **Amazon QuickSight**| Visualizes key business metrics in real time                   |
+| **AWS SNS**          | Sends automated email alerts on pipeline success/failure       |
 
-SNS Alerts: Email notifications on success/failure
+---
 
-🧪 Sample Data
-Located in /data/sample_data.csv – this sample represents the raw input file used for pipeline testing.
+## ✅ Features
+
+* Modular pipeline with retry and alerting mechanisms
+* Separated transformation logic for RDS and Redshift stages
+* Visual KPIs using Amazon QuickSight
+* Designed for scalability and real-world AWS environments
+
